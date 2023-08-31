@@ -149,14 +149,6 @@ class UserController extends Controller
      *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
      *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
      *          )
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="UNPROCESSABLE CONTENT",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The apellidos field is required."),
-     *              @OA\Property(property="errors", type="string", example="Objeto de errores"),
-     *          )
      *      )
      * )
      */
@@ -196,14 +188,7 @@ class UserController extends Controller
      *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
      *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
      *         )
-     *     ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="NOT FOUND",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="No query results for model [App\\Models\\Cliente] #id"),
-     *          )
-     *      )
+     *     )
      * )
      */
     public function show(int $id)
@@ -278,14 +263,6 @@ class UserController extends Controller
      *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
      *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
      *          )
-     *      ),
-     *      @OA\Response(
-     *          response=422,
-     *          description="UNPROCESSABLE CONTENT",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The apellidos field is required."),
-     *              @OA\Property(property="errors", type="string", example="Objeto de errores"),
-     *          )
      *      )
      * )
      */
@@ -304,10 +281,33 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete user information
+     * @OA\Delete (
+     *     path="/api/users/{id}",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="NO CONTENT"
+     *     )
+     * )
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            return ApiResponse::success('The user has been successfully deleted', 204);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('An error occurred while trying to get the user: ' . $e->getMessage(), 404);
+        } catch (Exception $e) {
+            return ApiResponse::error('Error: ' . $e->getMessage(), 422);
+        } 
     }
 }
