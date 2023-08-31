@@ -12,19 +12,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-/**
-* @OA\Info(
-*             title="E-commerce Api", 
-*             version="1.0",
-*             description="This is project is about a simple E-commerce API"
-* )
-*
-* @OA\Server(url="http://127.0.0.1:8000")
-*/
 class UserController extends Controller
 {
    /**
-     * This endpoint shows all users
+     * Show all users
      * @OA\Get (
      *     path="/api/users",
      *     tags={"User"},
