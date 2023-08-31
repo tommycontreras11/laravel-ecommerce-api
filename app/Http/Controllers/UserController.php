@@ -193,7 +193,7 @@ class UserController extends Controller
         }
     }
 
-/**
+   /**
      * Update user information
      * @OA\Patch (
      *     path="/api/users/{id}",

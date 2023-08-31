@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Category;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -67,7 +71,7 @@ class CategoryController extends Controller
         }
     }
 
-/**
+   /**
      * Create a new category
      * @OA\Post (
      *     path="/api/categories",
@@ -107,36 +111,138 @@ class CategoryController extends Controller
      *      )
      * )
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
         try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
+            $category = Category::create($request->all());
+
+            return ApiResponse::success('The category has been successfully created', 201, $category);
+        } catch (ValidationException $e) {
+            return ApiResponse::error('Validation error: ' . $e->getMessage(), 422);
         }
     }
 
-    /**
-     * Display the specified resource.
+   /**
+     * Show category information
+     * @OA\Get (
+     *     path="/api/categories/{id}",
+     *     tags={"Category"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="id", type="number", example=1),
+     *              @OA\Property(property="name", type="string", example="Dairy"),
+     *              @OA\Property(property="description", type="string", example="This category is all about dairy."),
+     *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+     *         )
+     *     )
+     * )
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id);
+
+            return ApiResponse::success('Success', 200, $category);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
+   /**
+     * Update category information
+     * @OA\Patch (
+     *     path="/api/categories/{id}",
+     *     tags={"Category"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="name",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="description",
+     *                          type="string"
+     *                      )
+     *                 ),
+     *                 example={
+     *                     "name":"Dairy",
+     *                     "description":"This category is all about dairy."
+     *                }
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="CREATED",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="number", example=1),
+     *              @OA\Property(property="name", type="string", example="Dairy"),
+     *              @OA\Property(property="description", type="string", example="This category is all about dairy."),
+     *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+     *          )
+     *      )
+     * )
      */
-    public function update(Request $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id);
+            
+            $category->update($request->all());
+            return ApiResponse::success('The category has been successfully updated ', 200, $request->all());
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
+        } catch (Exception $e) {
+            return ApiResponse::error('Error: ' . $e->getMessage(), 422);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
+   /**
+     * Delete category information
+     * @OA\Delete (
+     *     path="/api/categories/{id}",
+     *     tags={"Category"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="NO CONTENT"
+     *     )
+     * )
      */
     public function destroy($id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id);
+
+            $category->delete();
+            return ApiResponse::success('The category has been successfully deleted', 204);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('An error ocurred while trying to get the user: ' . $e->getMessage(), 404);
+        }
     }
 }
