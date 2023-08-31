@@ -18,8 +18,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => fake()->userName(),
-            'first_name' => fake()->unique()->name(),
+            'username' => fake()->unique()->userName(),
+            'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
             'telephone' => fake()->phoneNumber(),
             'age' => fake()->numberBetween(18, 100),
