@@ -146,7 +146,6 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         try {
-            $request->validated();
             $user = User::create($request->all());
 
             return ApiResponse::success('The users has been successfully created', 201, $user);

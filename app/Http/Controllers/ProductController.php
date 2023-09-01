@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CategoryStoreRequest;
-use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\Category;
+use App\Models\Product;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
 
-   /**
-     * Show all categories
+    /**
+     * Show all products
      * @OA\Get (
-     *     path="/api/categories",
-     *     tags={"Category"},
+     *     path="/api/products",
+     *     tags={"Product"},
      *     @OA\Response(
      *         response=200,
      *         description="OK",
@@ -37,12 +37,27 @@ class CategoryController extends Controller
      *                     @OA\Property(
      *                         property="name",
      *                         type="string",
-     *                         example="Dairy"
+     *                         example="Battery"
      *                     ),
      *                     @OA\Property(
      *                         property="description",
      *                         type="string",
-     *                         example="This category is all about dairy."
+     *                         example="This is the description of the battery"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="price",
+     *                         type="double",
+     *                         example="50.75"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="category_id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="inventory_id",
+     *                         type="number",
+     *                         example="15"
      *                     ),
      *                     @OA\Property(
      *                         property="created_at",
@@ -63,19 +78,19 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::all();
+            $products = Product::all();
 
-            return ApiResponse::success('Success', 200, $categories);
+            return ApiResponse::success('Success', 200, $products);
         } catch (Exception $e) {
-            return ApiResponse::error('An error ocurred while trying to get the users ' . $e->getMessage(), 500);
+            return ApiResponse::error('An ocurrer ocurred while trying to get the users: ' . $e->getMessage(), 500);
         }
     }
 
    /**
-     * Create a new category
+     * Create a new product
      * @OA\Post (
-     *     path="/api/categories",
-     *     tags={"Category"},
+     *     path="/api/products",
+     *     tags={"Product"},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -89,11 +104,26 @@ class CategoryController extends Controller
      *                      @OA\Property(
      *                          property="description",
      *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="price",
+     *                          type="double"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="category_id",
+     *                          type="number"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="inventory_id",
+     *                          type="number"
      *                      )
      *                 ),
      *                 example={
-     *                     "name":"Dairy",
-     *                     "description":"This category is all about dairy."
+     *                     "name":"Battery",
+     *                     "description":"This is the description of the battery",
+     *                     "price":"50.75",
+     *                     "category_id":"1",
+     *                     "inventory_id":"15"
      *                }
      *             )
      *         )
@@ -103,30 +133,33 @@ class CategoryController extends Controller
      *          description="CREATED",
      *          @OA\JsonContent(
      *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="name", type="string", example="Dairy"),
-     *              @OA\Property(property="description", type="string", example="This category is all about dairy."),
+     *              @OA\Property(property="name", type="string", example="Battery"),
+     *              @OA\Property(property="description", type="string", example="This is the description of the battery"),
+     *              @OA\Property(property="price", type="double", example="50.75"),
+     *              @OA\Property(property="category_id", type="number", example="1"),
+     *              @OA\Property(property="inventory_id", type="number", example="15"),
      *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
      *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
      *          )
      *      )
      * )
      */
-    public function store(CategoryStoreRequest $request)
+    public function store(ProductStoreRequest $request)
     {
         try {
-            $category = Category::create($request->all());
+            $product = Product::create($request->all());
 
-            return ApiResponse::success('The category has been successfully created', 201, $category);
+            return ApiResponse::success('The product has been successfully created', 201, $product);
         } catch (ValidationException $e) {
             return ApiResponse::error('Validation error: ' . $e->getMessage(), 422);
         }
     }
 
    /**
-     * Show category information
+     * Show product information
      * @OA\Get (
-     *     path="/api/categories/{id}",
-     *     tags={"Category"},
+     *     path="/api/products/{id}",
+     *     tags={"Product"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -138,8 +171,11 @@ class CategoryController extends Controller
      *         description="OK",
      *         @OA\JsonContent(
      *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="name", type="string", example="Dairy"),
-     *              @OA\Property(property="description", type="string", example="This category is all about dairy."),
+     *              @OA\Property(property="name", type="string", example="Battery"),
+     *              @OA\Property(property="description", type="string", example="This is the description of the battery"),
+     *              @OA\Property(property="price", type="double", example="50.75"),
+     *              @OA\Property(property="category_id", type="number", example="1"),
+     *              @OA\Property(property="inventory_id", type="number", example="15"),
      *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
      *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
      *         )
@@ -149,19 +185,20 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = Category::findOrFail($id);
+            $product = Product::findOrFail($id);
 
-            return ApiResponse::success('Success', 200, $category);
+            return ApiResponse::success('Success', 200, $product);
         } catch (ModelNotFoundException $e) {
-            return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
+            return ApiResponse::error('An error ocurred while trying to get the product: ' . $e->getMessage(), 404);
         }
     }
 
-   /**
-     * Update category information
+
+    /**
+     * Update product information
      * @OA\Patch (
-     *     path="/api/categories/{id}",
-     *     tags={"Category"},
+     *     path="/api/products/{id}",
+     *     tags={"Product"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -181,11 +218,26 @@ class CategoryController extends Controller
      *                      @OA\Property(
      *                          property="description",
      *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="price",
+     *                          type="double"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="category_id",
+     *                          type="number"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="inventory_id",
+     *                          type="number"
      *                      )
      *                 ),
      *                 example={
-     *                     "name":"Dairy",
-     *                     "description":"This category is all about dairy."
+     *                     "name":"Battery",
+     *                     "description":"This is the description of the battery",
+     *                     "price":"50.75",
+     *                     "category_id":"1",
+     *                     "inventory_id":"15"
      *                }
      *             )
      *         )
@@ -195,33 +247,37 @@ class CategoryController extends Controller
      *          description="CREATED",
      *          @OA\JsonContent(
      *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="name", type="string", example="Dairy"),
-     *              @OA\Property(property="description", type="string", example="This category is all about dairy."),
+     *              @OA\Property(property="name", type="string", example="Battery"),
+     *              @OA\Property(property="description", type="string", example="This is the description of the battery"),
+     *              @OA\Property(property="price", type="double", example="50.75"),
+     *              @OA\Property(property="category_id", type="number", example="1"),
+     *              @OA\Property(property="inventory_id", type="number", example="15"),
      *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
      *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
      *          )
      *      )
      * )
      */
-    public function update(CategoryUpdateRequest $request, $id)
+    public function update(ProductUpdateRequest $request, $id)
     {
         try {
-            $category = Category::findOrFail($id);
-            $category->update($request->all());
-
-            return ApiResponse::success('The category has been successfully updated ', 200, $request->all());
+            $product = Product::findOrFail($id);
+            $product->update($request->all());
+            
+            return ApiResponse::success('The product has been successfully updated', 200, $request->all());
         } catch (ModelNotFoundException $e) {
-            return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
+            return ApiResponse::error('An error ocurred while trying to get the product: ' . $e->getMessage(), 404);
         } catch (Exception $e) {
             return ApiResponse::error('Error: ' . $e->getMessage(), 422);
         }
     }
 
+
    /**
-     * Delete category information
+     * Delete product information
      * @OA\Delete (
-     *     path="/api/categories/{id}",
-     *     tags={"Category"},
+     *     path="/api/products/{id}",
+     *     tags={"Product"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -234,15 +290,15 @@ class CategoryController extends Controller
      *     )
      * )
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
         try {
-            $category = Category::findOrFail($id);
-            $category->delete();
+            $product = Product::findOrFail($id);
+            $product->delete();
 
-            return ApiResponse::success('The category has been successfully deleted', 204);
+            return ApiResponse::success('The product has been successfully deleted', 204);
         } catch (ModelNotFoundException $e) {
-            return ApiResponse::error('An error ocurred while trying to get the user: ' . $e->getMessage(), 404);
+            return ApiResponse::error('An error ocurred while trying to get the product: ' . $e->getMessage(), 404);
         }
     }
 }
