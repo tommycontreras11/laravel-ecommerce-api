@@ -185,7 +185,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = Product::with(['category:id,name,description', 'inventory:id,quantity'])->find($id);
 
             return ApiResponse::success('Success', 200, $product);
         } catch (ModelNotFoundException $e) {

@@ -27,3 +27,7 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('product_inventories', Product_InventoryController::class);
 Route::apiResource('products', ProductController::class);
+
+Route::prefix('categories')->group(function () {
+    Route::get('/{id}/products', [CategoryController::class, 'getProductsByCategoryId']); 
+});

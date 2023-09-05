@@ -157,6 +157,41 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Show category products information
+     * @OA\Get (
+     *     path="/api/categories/{id}/products",
+     *     tags={"Category"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="id", type="number", example=1),
+     *              @OA\Property(property="name", type="string", example="Dairy"),
+     *              @OA\Property(property="description", type="string", example="This category is all about dairy."),
+     *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+     *         )
+     *     )
+     * )
+     */
+    public function getProductsByCategoryId($id)
+    {
+        try {
+            $category = Category::with('products')->findOrFail($id);
+
+            return ApiResponse::success('Success', 200, $category);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
+        }
+    }
+
    /**
      * Update category information
      * @OA\Patch (
