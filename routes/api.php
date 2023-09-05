@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Product_InventoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -31,3 +32,5 @@ Route::apiResource('products', ProductController::class);
 Route::prefix('categories')->group(function () {
     Route::get('/{id}/products', [CategoryController::class, 'getProductsByCategoryId']); 
 });
+
+Route::apiResource('orders', OrderController::class);
