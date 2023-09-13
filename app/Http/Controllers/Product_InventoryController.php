@@ -20,6 +20,7 @@ class Product_InventoryController extends Controller
      * @OA\Get (
      *     path="/api/product_inventories",
      *     tags={"Product Inventory"},
+     *     security={{"token": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="OK",
@@ -72,6 +73,7 @@ class Product_InventoryController extends Controller
      * @OA\Post (
      *     path="/api/product_inventories",
      *     tags={"Product Inventory"},
+     *     security={{"token": {}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -117,6 +119,7 @@ class Product_InventoryController extends Controller
      * @OA\Get (
      *     path="/api/product_inventories/{id}",
      *     tags={"Product Inventory"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -152,6 +155,7 @@ class Product_InventoryController extends Controller
      * @OA\Patch (
      *     path="/api/product_inventories/{id}",
      *     tags={"Product Inventory"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -207,6 +211,7 @@ class Product_InventoryController extends Controller
      * @OA\Delete (
      *     path="/api/product_inventories/{id}",
      *     tags={"Product Inventory"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",

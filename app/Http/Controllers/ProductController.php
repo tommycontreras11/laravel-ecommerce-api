@@ -20,6 +20,7 @@ class ProductController extends Controller
      * @OA\Get (
      *     path="/api/products",
      *     tags={"Product"},
+     *     security={{"token": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="OK",
@@ -91,6 +92,7 @@ class ProductController extends Controller
      * @OA\Post (
      *     path="/api/products",
      *     tags={"Product"},
+     *     security={{"token": {}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -160,6 +162,7 @@ class ProductController extends Controller
      * @OA\Get (
      *     path="/api/products/{id}",
      *     tags={"Product"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -199,6 +202,7 @@ class ProductController extends Controller
      * @OA\Patch (
      *     path="/api/products/{id}",
      *     tags={"Product"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -278,6 +282,7 @@ class ProductController extends Controller
      * @OA\Delete (
      *     path="/api/products/{id}",
      *     tags={"Product"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",

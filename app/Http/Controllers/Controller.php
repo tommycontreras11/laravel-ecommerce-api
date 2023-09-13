@@ -3,19 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 /**
 * @OA\Info(
-*             title="E-commerce Api", 
-*             version="1.0",
-*             description="This is project is about a simple E-commerce API"
+*    title="Documentación API ",
+*    version="1.0",
+*    description="Documentación API ",
+*   @OA\Contact(
+*       name="API Support",
+*       email = "tommycontreras34@gmail.com",
+*   ),
+* ),
+* @OA\SecurityScheme(
+*   securityScheme="token",
+*   type="http",
+*   name="Authorization",
+*   in="header",
+*   scheme="Bearer"
 * )
-*
-* @OA\Server(url="http://127.0.0.1:8000")
 */
+
 class Controller extends BaseController
 {
-    use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

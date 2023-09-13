@@ -1,23 +1,256 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "E-commerce Api",
-        "description": "This is project is about a simple E-commerce API",
+        "title": "Documentación API ",
+        "description": "Documentación API ",
+        "contact": {
+            "name": "API Support",
+            "email": "tommycontreras34@gmail.com"
+        },
         "version": "1.0"
     },
-    "servers": [
-        {
-            "url": "http://127.0.0.1:8000"
-        }
-    ],
     "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Email Usuario",
+                                        "type": "string",
+                                        "example": "tommy112@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "Hola1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Register"
+                ],
+                "summary": "Create a new user",
+                "description": "Sign in",
+                "operationId": "register",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "username": {
+                                                "type": "string"
+                                            },
+                                            "first_name": {
+                                                "type": "string"
+                                            },
+                                            "last_name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "telephone": {
+                                                "type": "string"
+                                            },
+                                            "age": {
+                                                "type": "number"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "first_name": "Tommy",
+                                    "last_name": "Grullón Contreras",
+                                    "email": "tommy@gmail.com",
+                                    "telephone": "829-754-6150",
+                                    "age": 20,
+                                    "password": "Hola1234"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Tommy"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "Grullón Contreras"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "tommy@gmail.com"
+                                        },
+                                        "telephone": {
+                                            "type": "string",
+                                            "example": "829-754-6150"
+                                        },
+                                        "age": {
+                                            "type": "number",
+                                            "example": 20
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "Hola1234"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-02-23T00:09:16.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2023-02-23T12:33:45.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/profile": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Profile",
+                "operationId": "Profile",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Logout",
+                "operationId": "Logout",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/categories": {
             "get": {
                 "tags": [
                     "Category"
                 ],
-                "summary": "Show all categories",
-                "operationId": "3f5817a34833d0a1f4af4548dd3aeaba",
+                "summary": "Get all categories",
+                "description": "Show all categories",
+                "operationId": "Categories",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -59,7 +292,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -179,7 +417,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -201,7 +444,12 @@
                     "204": {
                         "description": "NO CONTENT"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -278,7 +526,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/categories/{id}/products": {
@@ -331,7 +584,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/orders": {
@@ -391,7 +649,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -709,7 +972,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -802,7 +1070,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/products/{id}": {
@@ -868,7 +1141,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -890,7 +1168,12 @@
                     "204": {
                         "description": "NO CONTENT"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -993,7 +1276,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/product_inventories": {
@@ -1040,7 +1328,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1099,7 +1392,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/product_inventories/{id}": {
@@ -1148,7 +1446,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1170,7 +1473,12 @@
                     "204": {
                         "description": "NO CONTENT"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -1239,7 +1547,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/users": {
@@ -1247,62 +1560,34 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Show all users",
+                "summary": "Get list of users",
+                "description": "Return list of users",
                 "operationId": "c457726701591d1183b53aa71fc13441",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Successful operation",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "username": {
-                                                        "type": "string",
-                                                        "example": "Tommy 11"
-                                                    },
-                                                    "first_name": {
-                                                        "type": "string",
-                                                        "example": "Tommy"
-                                                    },
-                                                    "last_name": {
-                                                        "type": "string",
-                                                        "example": "Grullón Contreras"
-                                                    },
-                                                    "telephone": {
-                                                        "type": "string",
-                                                        "example": "829-754-6150"
-                                                    },
-                                                    "age": {
-                                                        "type": "number",
-                                                        "example": "20"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                            "application/json": {}
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1393,7 +1678,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/users/{id}": {
@@ -1458,7 +1748,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1480,7 +1775,12 @@
                     "204": {
                         "description": "NO CONTENT"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -1581,7 +1881,22 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "token": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "Bearer"
             }
         }
     }

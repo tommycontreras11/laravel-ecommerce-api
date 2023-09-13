@@ -20,6 +20,7 @@ class OrderController extends Controller
      * @OA\Get (
      *     path="/api/orders",
      *     tags={"Order"},
+     *     security={{"token": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="OK",

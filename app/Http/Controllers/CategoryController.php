@@ -20,6 +20,9 @@ class CategoryController extends Controller
      * @OA\Get (
      *     path="/api/categories",
      *     tags={"Category"},
+     *     summary="Get all categories",
+     *     operationId="Categories",
+     *     security={{"token": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="OK",
@@ -127,6 +130,7 @@ class CategoryController extends Controller
      * @OA\Get (
      *     path="/api/categories/{id}",
      *     tags={"Category"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -162,6 +166,7 @@ class CategoryController extends Controller
      * @OA\Get (
      *     path="/api/categories/{id}/products",
      *     tags={"Category"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -197,6 +202,7 @@ class CategoryController extends Controller
      * @OA\Patch (
      *     path="/api/categories/{id}",
      *     tags={"Category"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -257,6 +263,7 @@ class CategoryController extends Controller
      * @OA\Delete (
      *     path="/api/categories/{id}",
      *     tags={"Category"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",

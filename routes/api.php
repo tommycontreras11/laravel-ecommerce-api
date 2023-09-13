@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Product_InventoryController;
@@ -22,15 +23,18 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::group(['middleware' => 'auth:api', 'verified'], function() {
 
-Route::apiResource('users', UserController::class);
-Route::apiResource('categories', CategoryController::class);
-Route::apiResource('product_inventories', Product_InventoryController::class);
-Route::apiResource('products', ProductController::class);
-
-Route::prefix('categories')->group(function () {
-    Route::get('/{id}/products', [CategoryController::class, 'getProductsByCategoryId']); 
+    Route::post('/profile', [AuthController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('categories', CategoryController::class);
+    Route::prefix('categories')->group(function () {
+        Route::get('/{id}/products', [CategoryController::class, 'getProductsByCategoryId']); 
+    });
+    Route::apiResource('product_inventories', Product_InventoryController::class);
+    Route::apiResource('products', ProductController::class);
+    Route::apiResource('orders', OrderController::class);
 });
-
-Route::apiResource('orders', OrderController::class);

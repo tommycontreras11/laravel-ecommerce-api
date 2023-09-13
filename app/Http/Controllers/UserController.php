@@ -19,59 +19,32 @@ class UserController extends Controller
      * @OA\Get (
      *     path="/api/users",
      *     tags={"User"},
+     *     security={{"token": {}}},
+     *     summary="Get list of users",
+     *     description="Return list of users",
      *     @OA\Response(
-     *         response=200,
-     *         description="OK",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 type="array",
-     *                 property="rows",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="number",
-     *                         example="1"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="username",
-     *                         type="string",
-     *                         example="Tommy 11"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="first_name",
-     *                         type="string",
-     *                         example="Tommy"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="last_name",
-     *                         type="string",
-     *                         example="Grullón Contreras"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="telephone",
-     *                         type="string",
-     *                         example="829-754-6150"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="age",
-     *                         type="number",
-     *                         example="20"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="created_at",
-     *                         type="string",
-     *                         example="2023-02-23T00:09:16.000000Z"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="updated_at",
-     *                         type="string",
-     *                         example="2023-02-23T12:33:45.000000Z"
-     *                     )
-     *                 )
-     *             )
-     *         )
-     *     )
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json",
+     *          )
+     *      ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="not found"
+     *     ),
      * )
      */
     public function index()
@@ -90,6 +63,7 @@ class UserController extends Controller
      * @OA\Post (
      *     path="/api/users",
      *     tags={"User"},
+     *     security={{"token": {}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -159,6 +133,7 @@ class UserController extends Controller
      * @OA\Get (
      *     path="/api/users/{id}",
      *     tags={"User"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -197,6 +172,7 @@ class UserController extends Controller
      * @OA\Patch (
      *     path="/api/users/{id}",
      *     tags={"User"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -275,6 +251,7 @@ class UserController extends Controller
      * @OA\Delete (
      *     path="/api/users/{id}",
      *     tags={"User"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
