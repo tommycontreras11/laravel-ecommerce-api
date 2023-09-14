@@ -10,7 +10,7 @@ use App\Http\Resources\OrderResourceFull;
 use App\Http\Responses\ApiResponse;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Product_Inventory;
+use App\Models\ProductInventory;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -133,7 +133,7 @@ class OrderController extends Controller
     {
         try {
             $product = Product::findOrFail($request->product_id);
-            $inventory = Product_Inventory::findOrFail($product->inventory_id);
+            $inventory = ProductInventory::findOrFail($product->inventory_id);
 
             if($request->quantity > $inventory->quantity) 
             {
@@ -192,7 +192,9 @@ class OrderController extends Controller
     public function show($id)
     {
         try {
-            return ApiResponse::success('Success', 200, new OrderResourceFull(Order::findOrFail($id)));
+            $order = Order::with(['user', 'product'])->findOrFail($id);
+            
+            return ApiResponse::success('Success', 200, new OrderResourceFull($order));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the order: ' . $e->getMessage(), 404);
         }
@@ -257,7 +259,7 @@ class OrderController extends Controller
             $order = Order::findOrFail($id);
 
             $product = Product::findOrFail($request->product_id);
-            $inventory = Product_Inventory::findOrFail($product->inventory_id);
+            $inventory = ProductInventory::findOrFail($product->inventory_id);
 
             if($request->quantity > $inventory->quantity) 
             {

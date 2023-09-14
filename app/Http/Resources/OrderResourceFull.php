@@ -18,8 +18,8 @@ class OrderResourceFull extends JsonResource
             'id' => $this->id,
             'quantity' => $this->quantity,
             'total' => $this->total,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'user' => new UserResource($this->user),
+            'product' => new ProductResource($this->product)
         ];
     }
 }
