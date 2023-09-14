@@ -154,7 +154,9 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            return ApiResponse::success('Success', 200, new CategoryResourceFull(Category::findOrFail($id)));
+            $category = Category::with(['products'])->findOrFail($id);
+
+            return ApiResponse::success('Success', 200, new CategoryResourceFull($category));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
         }
