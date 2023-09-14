@@ -22,7 +22,7 @@ class Product extends Model
 
     public function inventory(): BelongsTo 
     {
-        return $this->belongsTo(Product_Inventory::class);
+        return $this->belongsTo(ProductInventory::class);
     }
 
     public function orders(): HasMany 

@@ -19,8 +19,9 @@ class ProductResourceFull extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'category' => new CategoryResource($this->category),
+            'inventory' => new ProductInventoryResource($this->inventory),
+            'orders' => OrderResource::collection($this->orders)
         ];
     }
 }

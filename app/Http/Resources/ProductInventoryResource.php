@@ -16,9 +16,7 @@ class ProductInventoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'quantity' => $this->quantity,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'quantity' => $this->quantity
         ];
     }
 }
