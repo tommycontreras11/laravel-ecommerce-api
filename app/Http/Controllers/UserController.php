@@ -236,7 +236,7 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             $user->update($request->all());
 
-            return ApiResponse::success('The user has been successfully updated', 200, new UserResourceFull(User::findOrFail($id)));
+            return ApiResponse::success('The user has been successfully updated', 200, new UserResourceFull($user));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error occurred while trying to get the user: ' . $e->getMessage(), 404);
         } catch (Exception $e) {

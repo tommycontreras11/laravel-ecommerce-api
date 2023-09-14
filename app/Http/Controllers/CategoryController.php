@@ -118,7 +118,9 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         try {
-            return ApiResponse::success('The category has been successfully created', 201, new CategoryResource(Category::create($request->all())));
+            $category = Category::create($request->all());
+
+            return ApiResponse::success('The category has been successfully created', 201, new CategoryResource($category));
         } catch (ValidationException $e) {
             return ApiResponse::error('Validation error: ' . $e->getMessage(), 422);
         }
@@ -247,7 +249,7 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->update($request->all());
 
-            return ApiResponse::success('The category has been successfully updated ', 200, new CategoryResource(Category::findOrFail($id)));
+            return ApiResponse::success('The category has been successfully updated ', 200, new CategoryResource($category));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
         } catch (Exception $e) {

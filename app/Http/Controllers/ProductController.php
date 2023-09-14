@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductResourceFull;
 use App\Http\Responses\ApiResponse;
 use App\Models\Product;
 use Exception;
@@ -79,9 +81,7 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $products = Product::all();
-
-            return ApiResponse::success('Success', 200, $products);
+            return ApiResponse::success('Success', 200, ProductResource::collection(Product::all()));
         } catch (Exception $e) {
             return ApiResponse::error('An ocurrer ocurred while trying to get the users: ' . $e->getMessage(), 500);
         }
@@ -151,7 +151,7 @@ class ProductController extends Controller
         try {
             $product = Product::create($request->all());
 
-            return ApiResponse::success('The product has been successfully created', 201, $product);
+            return ApiResponse::success('The product has been successfully created', 201, new ProductResource($product));
         } catch (ValidationException $e) {
             return ApiResponse::error('Validation error: ' . $e->getMessage(), 422);
         }
@@ -188,9 +188,9 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['category:id,name,description', 'inventory:id,quantity'])->find($id);
+            $product = Product::findOrFail($id);
 
-            return ApiResponse::success('Success', 200, $product);
+            return ApiResponse::success('Success', 200, new ProductResourceFull($product));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the product: ' . $e->getMessage(), 404);
         }
@@ -268,7 +268,7 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             $product->update($request->all());
             
-            return ApiResponse::success('The product has been successfully updated', 200, $request->all());
+            return ApiResponse::success('The product has been successfully updated', 200, new ProductResource($product));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the product: ' . $e->getMessage(), 404);
         } catch (Exception $e) {
