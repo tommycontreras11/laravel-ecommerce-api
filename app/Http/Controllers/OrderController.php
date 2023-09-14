@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Http\Resources\OrderResourceFull;
 use App\Http\Responses\ApiResponse;
 use App\Models\Order;
 use App\Models\Product;
@@ -87,6 +88,7 @@ class OrderController extends Controller
      * @OA\Post (
      *     path="/api/orders",
      *     tags={"Order"},
+     *     security={{"token": {}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -108,8 +110,7 @@ class OrderController extends Controller
      *                 ),
      *                 example={
      *                     "quantity":"1",
-     *                     "product_id":"1",
-     *                     "user_id":"1"
+     *                     "product_id":"1"
      *                }
      *             )
      *         )
@@ -150,7 +151,7 @@ class OrderController extends Controller
                 'quantity' => $request->quantity,
                 'total' => $total,
                 'product_id' => $request->product_id,
-                'user_id' => $request->user_id
+                'user_id' => auth()->user()->id
             ]);
 
             return ApiResponse::success('The order has been successfully created', 200, $order);
@@ -167,6 +168,7 @@ class OrderController extends Controller
      * @OA\Get (
      *     path="/api/orders/{id}",
      *     tags={"Order"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -191,7 +193,7 @@ class OrderController extends Controller
     public function show($id)
     {
         try {
-            $order = Order::with(['user', 'product'])->findOrFail($id);
+            $order = Order::with(['user'])->findOrFail($id);
 
             return ApiResponse::success('Success', 200, $order);
         } catch (ModelNotFoundException $e) {
@@ -204,6 +206,7 @@ class OrderController extends Controller
      * @OA\Patch (
      *     path="/api/orders/{id}",
      *     tags={"Order"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -231,8 +234,7 @@ class OrderController extends Controller
      *                 ),
      *                 example={
      *                     "quantity":"1",
-     *                     "product_id":"1",
-     *                     "user_id":"1"
+     *                     "product_id":"1"
      *                }
      *             )
      *         )
@@ -275,7 +277,7 @@ class OrderController extends Controller
                 'quantity' => $request->quantity,
                 'total' => $total,
                 'product_id' => $request->product_id,
-                'user_id' => $request->user_id
+                'user_id' => auth()->user()->id
             ]);
 
             return ApiResponse::success('The order has been successfully updated', 200, $order);
@@ -289,6 +291,7 @@ class OrderController extends Controller
      * @OA\Delete (
      *     path="/api/orders/{id}",
      *     tags={"Order"},
+     *     security={{"token": {}}},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",

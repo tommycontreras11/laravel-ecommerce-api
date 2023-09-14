@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrderStoreRequest extends FormRequest
 {
@@ -23,8 +24,7 @@ class OrderStoreRequest extends FormRequest
     {
         return [
             'quantity' => ['required', 'integer'],
-            'product_id' => ['required', 'integer', 'exists:products,id'],
-            'user_id' => ['required', 'integer', 'exists:users,id']
+            'product_id' => ['required', 'integer', 'exists:products,id']
         ];
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\UserResourceFull;
 use App\Http\Responses\ApiResponse;
 use App\Models\User;
 use Exception;
@@ -50,9 +52,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::all();
-
-            return ApiResponse::success('Success', 200, $users);
+            return ApiResponse::success('Success', 200, UserResource::collection(User::all()));
         } catch (Exception $e) {
             return ApiResponse::error('An error occurred while trying to get the users: ' . $e->getMessage(), 500);
         }
@@ -122,7 +122,7 @@ class UserController extends Controller
         try {
             $user = User::create($request->all());
 
-            return ApiResponse::success('The users has been successfully created', 201, $user);
+            return ApiResponse::success('The users has been successfully created', 201, new UserResourceFull($user));
         } catch (ValidationException $e) {
             return ApiResponse::error('Validation error: ' . $e->getMessage(), 422);
         }
@@ -159,9 +159,7 @@ class UserController extends Controller
     public function show(int $id)
     {
         try {
-            $user = User::findOrFail($id);
-
-            return ApiResponse::success('Success', 200, $user);
+            return ApiResponse::success('Success', 200, new UserResourceFull(User::findOrFail($id)));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error occurred while trying to get the user: ' . $e->getMessage(), 404);
         }
@@ -238,7 +236,7 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             $user->update($request->all());
 
-            return ApiResponse::success('The user has been successfully updated', 200, $request->all());
+            return ApiResponse::success('The user has been successfully updated', 200, new UserResourceFull(User::findOrFail($id)));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error occurred while trying to get the user: ' . $e->getMessage(), 404);
         } catch (Exception $e) {

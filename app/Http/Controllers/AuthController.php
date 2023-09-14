@@ -14,8 +14,8 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/login",
-     *     tags={"Login"},
+     *     path="/api/auth/login",
+     *     tags={"Auth"},
      *     summary="Login",
      *     operationId="login",
      *     security={{"token": {}}},
@@ -166,8 +166,8 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/profile",
-     *     tags={"Login"},
+     *     path="/api/auth/profile",
+     *     tags={"Auth"},
      *     summary="Profile",
      *     operationId="Profile",
      *     security={{"token": {}}},
@@ -204,8 +204,8 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/logout",
-     *     tags={"Login"},
+     *     path="/api/auth/logout",
+     *     tags={"Auth"},
      *     summary="Logout",
      *     operationId="Logout",
      *     security={{"token": {}}},

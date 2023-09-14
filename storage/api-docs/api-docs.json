@@ -10,10 +10,10 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/login": {
+        "/api/auth/login": {
             "post": {
                 "tags": [
-                    "Login"
+                    "Auth"
                 ],
                 "summary": "Login",
                 "operationId": "login",
@@ -175,10 +175,10 @@
                 }
             }
         },
-        "/api/profile": {
+        "/api/auth/profile": {
             "post": {
                 "tags": [
-                    "Login"
+                    "Auth"
                 ],
                 "summary": "Profile",
                 "operationId": "Profile",
@@ -209,10 +209,10 @@
                 ]
             }
         },
-        "/api/logout": {
+        "/api/auth/logout": {
             "post": {
                 "tags": [
-                    "Login"
+                    "Auth"
                 ],
                 "summary": "Logout",
                 "operationId": "Logout",
@@ -685,8 +685,7 @@
                                 "type": "object",
                                 "example": {
                                     "quantity": "1",
-                                    "product_id": "1",
-                                    "user_id": "1"
+                                    "product_id": "1"
                                 }
                             }
                         }
@@ -734,7 +733,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/orders/{id}": {
@@ -796,7 +800,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -818,7 +827,12 @@
                     "204": {
                         "description": "NO CONTENT"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -859,8 +873,7 @@
                                 "type": "object",
                                 "example": {
                                     "quantity": "1",
-                                    "product_id": "1",
-                                    "user_id": "1"
+                                    "product_id": "1"
                                 }
                             }
                         }
@@ -908,7 +921,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/products": {
