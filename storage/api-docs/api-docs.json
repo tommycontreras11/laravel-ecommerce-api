@@ -364,7 +364,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/categories/{id}": {

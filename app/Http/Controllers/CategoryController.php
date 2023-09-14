@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryResourceFull;
 use App\Http\Responses\ApiResponse;
 use App\Models\Category;
 use Exception;
@@ -66,9 +68,7 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::all();
-
-            return ApiResponse::success('Success', 200, $categories);
+            return ApiResponse::success('Success', 200, CategoryResource::collection(Category::all()));
         } catch (Exception $e) {
             return ApiResponse::error('An error ocurred while trying to get the users ' . $e->getMessage(), 500);
         }
@@ -79,6 +79,7 @@ class CategoryController extends Controller
      * @OA\Post (
      *     path="/api/categories",
      *     tags={"Category"},
+     *     security={{"token": {}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -117,9 +118,7 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         try {
-            $category = Category::create($request->all());
-
-            return ApiResponse::success('The category has been successfully created', 201, $category);
+            return ApiResponse::success('The category has been successfully created', 201, new CategoryResource(Category::create($request->all())));
         } catch (ValidationException $e) {
             return ApiResponse::error('Validation error: ' . $e->getMessage(), 422);
         }
@@ -153,9 +152,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = Category::findOrFail($id);
-
-            return ApiResponse::success('Success', 200, $category);
+            return ApiResponse::success('Success', 200, new CategoryResourceFull(Category::findOrFail($id)));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
         }
@@ -250,7 +247,7 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->update($request->all());
 
-            return ApiResponse::success('The category has been successfully updated ', 200, $request->all());
+            return ApiResponse::success('The category has been successfully updated ', 200, new CategoryResource(Category::findOrFail($id)));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the category: ' . $e->getMessage(), 404);
         } catch (Exception $e) {
