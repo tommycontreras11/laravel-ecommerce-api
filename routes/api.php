@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\Product_InventoryController;
+use App\Http\Controllers\ProductInventoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -50,11 +50,11 @@ Route::group(['middleware' => 'auth:api', 'verified'], function() {
     });
 
     //Product Inventory
-    Route::get('/product_inventories', [Product_InventoryController::class, 'index']);
-    Route::get('/product_inventories/{id}', [Product_InventoryController::class, 'show']);
-    Route::post('/product_inventories', [Product_InventoryController::class, 'store']);
-    Route::patch('/product_inventories/{id}', [Product_InventoryController::class, 'update']);
-    Route::delete('/product_inventories/{id}', [Product_InventoryController::class, 'destroy']);
+    Route::get('/product_inventories', [ProductInventoryController::class, 'index']);
+    Route::get('/product_inventories/{id}', [ProductInventoryController::class, 'show']);
+    Route::post('/product_inventories', [ProductInventoryController::class, 'store']);
+    Route::patch('/product_inventories/{id}', [ProductInventoryController::class, 'update']);
+    Route::delete('/product_inventories/{id}', [ProductInventoryController::class, 'destroy']);
     
     //Product
     Route::get('/products', [ProductController::class, 'index']);

@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product_InventoryStoreRequest;
-use App\Http\Requests\Product_InventoryUpdateRequest;
+use App\Http\Requests\ProductInventoryStoreRequest;
+use App\Http\Requests\ProductInventoryUpdateRequest;
+use App\Http\Resources\ProductInventoryResource;
 use App\Http\Responses\ApiResponse;
-use App\Models\Product_Inventory;
+use App\Models\ProductInventory;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class Product_InventoryController extends Controller
+class ProductInventoryController extends Controller
 {
 
     /**
@@ -59,9 +60,7 @@ class Product_InventoryController extends Controller
     public function index()
     {
         try {
-            $product_inventories = Product_Inventory::all();
-
-            return ApiResponse::success('Success', 200, $product_inventories);
+            return ApiResponse::success('Success', 200, ProductInventoryResource::collection(ProductInventory::all()));
         } catch (Exception $e) {
             return ApiResponse::error('An error ocurrer while trying to get the product inventories: ' . $e->getMessage(), 500);
         }
@@ -103,12 +102,12 @@ class Product_InventoryController extends Controller
      *      )
      * )
      */
-    public function store(Product_InventoryStoreRequest $request)
+    public function store(ProductInventoryStoreRequest $request)
     {
         try {
-            Product_Inventory::create($request->all());
+            $product_inventory = ProductInventory::create($request->all());
 
-            return ApiResponse::success('The product inventory has been successfully created', 201, $request->all());
+            return ApiResponse::success('The product inventory has been successfully created', 201, new ProductInventoryResource($product_inventory));
         } catch (ValidationException $e) {
             return ApiResponse::error('validation errro: ' . $e->getMessage(), 422);
         }
@@ -141,9 +140,9 @@ class Product_InventoryController extends Controller
     public function show($id)
     {
         try {
-            $product_inventories = Product_Inventory::findOrFail($id);
+            $product_inventory = ProductInventory::findOrFail($id);
 
-            return ApiResponse::success('Success', 200, $product_inventories);
+            return ApiResponse::success('Success', 200, new ProductInventoryResource($product_inventory));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the product inventory', 404);
         }
@@ -191,13 +190,13 @@ class Product_InventoryController extends Controller
      *      )
      * )
      */
-    public function update(Product_InventoryUpdateRequest $request, $id)
+    public function update(ProductInventoryUpdateRequest $request, $id)
     {
         try {
-            $product_inventory = Product_Inventory::findOrFail($id);
+            $product_inventory = ProductInventory::findOrFail($id);
             $product_inventory->update($request->all());
 
-            return ApiResponse::success('The product inventory has been successfully updated', 200, $request->all());
+            return ApiResponse::success('The product inventory has been successfully updated', 200, new ProductInventoryResource($product_inventory));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the product inventory: ' . $e->getMessage(), 404);
         } catch (Exception $e) {
@@ -227,9 +226,9 @@ class Product_InventoryController extends Controller
     public function destroy($id)
     {
         try {
-            $product_Inventory = Product_Inventory::findOrFail($id);
+            $product_inventory = ProductInventory::findOrFail($id);
 
-            $product_Inventory->delete();
+            $product_inventory->delete();
             return ApiResponse::success('The product inventory has been successfully deleted', 204);
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the product inventory: ' . $e->getMessage(), 404);
