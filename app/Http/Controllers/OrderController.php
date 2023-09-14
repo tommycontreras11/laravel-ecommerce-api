@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\OrderResourceFull;
 use App\Http\Responses\ApiResponse;
 use App\Models\Order;
@@ -75,9 +76,7 @@ class OrderController extends Controller
     public function index()
     {
         try {
-            $orders = Order::all();
-
-            return ApiResponse::success('Success', 200, $orders);
+            return ApiResponse::success('Success', 200, OrderResource::collection(Order::all()));
         } catch (Exception $e) {
             return ApiResponse::error('Error: ' . $e->getMessage(), 500);
         }
@@ -154,7 +153,7 @@ class OrderController extends Controller
                 'user_id' => auth()->user()->id
             ]);
 
-            return ApiResponse::success('The order has been successfully created', 200, $order);
+            return ApiResponse::success('The order has been successfully created', 200, new OrderResource($order));
 
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('Error: ' .  $e->getMessage(), 404);
@@ -193,9 +192,7 @@ class OrderController extends Controller
     public function show($id)
     {
         try {
-            $order = Order::with(['user'])->findOrFail($id);
-
-            return ApiResponse::success('Success', 200, $order);
+            return ApiResponse::success('Success', 200, new OrderResourceFull(Order::findOrFail($id)));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the order: ' . $e->getMessage(), 404);
         }
@@ -280,7 +277,7 @@ class OrderController extends Controller
                 'user_id' => auth()->user()->id
             ]);
 
-            return ApiResponse::success('The order has been successfully updated', 200, $order);
+            return ApiResponse::success('The order has been successfully updated', 200, new OrderResource($order));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error ocurred while trying to get the order: ' . $e->getMessage(), 404);
         }
