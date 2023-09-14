@@ -159,7 +159,9 @@ class UserController extends Controller
     public function show(int $id)
     {
         try {
-            return ApiResponse::success('Success', 200, new UserResourceFull(User::findOrFail($id)));
+            $user = User::with(['orders'])->findOrFail($id);
+
+            return ApiResponse::success('Success', 200, new UserResourceFull($user));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error occurred while trying to get the user: ' . $e->getMessage(), 404);
         }

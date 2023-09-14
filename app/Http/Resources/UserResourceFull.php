@@ -21,8 +21,7 @@ class UserResourceFull extends JsonResource
             'email' => $this->email,
             'telephone' => $this->telephone,
             'age' => $this->age,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'orders' => OrderResourceFull::collection($this->orders)
         ];
     }
 }
