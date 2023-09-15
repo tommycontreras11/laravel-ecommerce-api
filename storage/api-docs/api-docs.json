@@ -1313,7 +1313,7 @@
                     "Product Inventory"
                 ],
                 "summary": "Show all product inventories",
-                "operationId": "8684db8579bc83eff699430a5d7885e8",
+                "operationId": "4ee0eb07f5c1ab5818fc06f8e8404aff",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1363,7 +1363,7 @@
                     "Product Inventory"
                 ],
                 "summary": "Create a new product inventory",
-                "operationId": "53115d3fb5ad98be1a8c937066d1529a",
+                "operationId": "d37632eca972f5333b62216a47feb4a6",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1429,7 +1429,7 @@
                     "Product Inventory"
                 ],
                 "summary": "Show product inventory information",
-                "operationId": "0b0e519b9819f5235a3c0921857a480a",
+                "operationId": "073a4e22926b849784cf229d64603c82",
                 "parameters": [
                     {
                         "name": "id",
@@ -1481,7 +1481,7 @@
                     "Product Inventory"
                 ],
                 "summary": "Delete product inventory information",
-                "operationId": "c7a960ff6289e720795f67cc5cdeeb41",
+                "operationId": "b5daeb25bfe4df0a96d9d84cce5ba337",
                 "parameters": [
                     {
                         "name": "id",
@@ -1508,7 +1508,7 @@
                     "Product Inventory"
                 ],
                 "summary": "Update product inventory information",
-                "operationId": "b6eb3bcbe1b0daba1ed017730cec8781",
+                "operationId": "81d68972c8fdc001b0d4085df595ae96",
                 "parameters": [
                     {
                         "name": "id",

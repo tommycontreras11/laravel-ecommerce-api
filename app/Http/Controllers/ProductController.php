@@ -81,7 +81,7 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            return ApiResponse::success('Success', 200, ProductResource::collection(Product::all()));
+            return ApiResponse::success('Success', 200, ProductResource::collection(Product::simplePaginate(10)));
         } catch (Exception $e) {
             return ApiResponse::error('An ocurrer ocurred while trying to get the users: ' . $e->getMessage(), 500);
         }

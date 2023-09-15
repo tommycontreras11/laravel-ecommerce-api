@@ -52,7 +52,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            return ApiResponse::success('Success', 200, UserResource::collection(User::all()));
+            return ApiResponse::success('Success', 200, UserResource::collection(User::simplePaginate(10)));
         } catch (Exception $e) {
             return ApiResponse::error('An error occurred while trying to get the users: ' . $e->getMessage(), 500);
         }
@@ -159,9 +159,9 @@ class UserController extends Controller
     public function show(int $id)
     {
         try {
-            $user = User::with(['orders'])->findOrFail($id);
+            $user = User::with(['orders:id,quantity,total,product_id', 'orders.product:id,name,description,price'])->findOrFail($id);
 
-            return ApiResponse::success('Success', 200, new UserResourceFull($user));
+            return ApiResponse::success('Success', 200, new UserResourceFull($user->except(['orders.id'])));
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('An error occurred while trying to get the user: ' . $e->getMessage(), 404);
         }

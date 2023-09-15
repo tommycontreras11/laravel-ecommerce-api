@@ -68,7 +68,7 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            return ApiResponse::success('Success', 200, CategoryResource::collection(Category::all()));
+            return ApiResponse::success('Success', 200, CategoryResource::collection(Category::simplePaginate(10)));
         } catch (Exception $e) {
             return ApiResponse::error('An error ocurred while trying to get the users ' . $e->getMessage(), 500);
         }

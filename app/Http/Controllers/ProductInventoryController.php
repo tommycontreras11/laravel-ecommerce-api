@@ -60,7 +60,7 @@ class ProductInventoryController extends Controller
     public function index()
     {
         try {
-            return ApiResponse::success('Success', 200, ProductInventoryResource::collection(ProductInventory::all()));
+            return ApiResponse::success('Success', 200, ProductInventoryResource::collection(ProductInventory::simplePaginate(10)));
         } catch (Exception $e) {
             return ApiResponse::error('An error ocurrer while trying to get the product inventories: ' . $e->getMessage(), 500);
         }

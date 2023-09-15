@@ -76,7 +76,7 @@ class OrderController extends Controller
     public function index()
     {
         try {
-            return ApiResponse::success('Success', 200, OrderResource::collection(Order::all()));
+            return ApiResponse::success('Success', 200, OrderResource::collection(Order::simplePaginate(10)));
         } catch (Exception $e) {
             return ApiResponse::error('Error: ' . $e->getMessage(), 500);
         }
